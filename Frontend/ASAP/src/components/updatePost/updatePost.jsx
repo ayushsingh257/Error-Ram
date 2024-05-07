@@ -52,6 +52,7 @@ export function UpdatePost() {
     }
   };
 
+  // Function to handle form input changes
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevData) => ({
@@ -60,18 +61,20 @@ export function UpdatePost() {
     }));
   };
 
-  const handleSearch = async () => {
-    try {
-      const response = await axios.get(`http://localhost:3000/routes/${searchOption}/${searchQuery}`);
-      setSearchResults([response.data]);
-      setSubmitMessage(""); // Clear submit message on successful search
-    } catch (error) {
-      console.error("Search failed:", error);
+  // Function to handle search
+  const handleSearch = () => {
+    console.log("Search Query:", searchQuery);
+    const query = Number.isNaN(parseInt(searchQuery)) ? searchQuery : parseInt(searchQuery);
+    const post = searchResults.find((post) => post.ID === query);
+    console.log("Found Post:", post);
+    if (post) {
+      setSearchResults([post]);
+      setSubmitMessage(""); 
+    } else {
       setSearchResults([]);
       setSubmitMessage("Post not found.");
-    }
-  };
-  
+    }
+  };
 
   return (
     <div>
